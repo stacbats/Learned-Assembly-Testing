@@ -1,0 +1,16 @@
+.label msg=$4013
+.label checkbitleft=$4098
+.label moveleft=$408e
+.label rightbounds=$40d2
+.label button=$40ea
+.label loop=$4073
+.label moveright=$40bc
+.label start=$4000
+.label leftbounds=$40a4
+.label drawloop=$4040
+.label checkbitright=$40c6
+.label done=$40f4
+.label delay=$4073
+.label drawtext=$403e
+.label movedown=$4084
+.label moveup=$407a

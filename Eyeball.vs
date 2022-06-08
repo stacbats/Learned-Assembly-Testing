@@ -1,0 +1,17 @@
+al C:4013 .msg
+al C:4098 .checkbitleft
+al C:4000 .start
+al C:40a4 .leftbounds
+al C:4040 .drawloop
+al C:408e .moveleft
+al C:80c .upstartEnd
+al C:40c6 .checkbitright
+al C:40d2 .rightbounds
+al C:40f4 .done
+al C:40ea .button
+al C:4073 .delay
+al C:403e .drawtext
+al C:4073 .loop
+al C:4084 .movedown
+al C:40bc .moveright
+al C:407a .moveup
