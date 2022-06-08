@@ -12,24 +12,20 @@ start:
     Border_Screen(0)
     Cursor_Color(1)
 
-    // ldx #$01
-    // stx $0286
-    // jsr $e544       // Clear the screen 
-
-    jsr drawtext    // Draw title text
+    jsr Instruction                // Display Message
 
 msg:
 	.text " look into my eye.  press fire and move    "
                       
 
-drawtext:
+Instruction:
     ldx #$00
-drawloop:
+Draw_Loop:
     lda msg,x                   // read our msg+x into the accumulator 
     sta SCREENPOSITION+41,x     // Position of text in char mem
     inx                         // Increment x 
     cpx #40                     // Compare x with 40(scrn width)
-    bne drawloop                // Loop until complete
+    bne Draw_Loop                // Loop until complete
     
     lda #$80        // Sprite Pointer
     sta $07f8       // $07f8 points to where sprite0 is in memory, but its value is divided by 64
@@ -42,30 +38,30 @@ drawloop:
 
     // Set x and y position             
     lda #$a0           
-    sta SP0X         // sprite0's xposition is stored in $d000 
+    sta SP0X                // sprite xposition 
     lda #$64
-    sta SP0Y          // sprite0's yposition is stored in $d001 
+    sta SP0Y                // sprite yposition 
 
 
     // Set multicolor mode              
     lda #$01          
     sta SPMCM 
 
-    // Set the sprite colors         
-    lda #$0e          
+    // Rest of Sprite colours         
+    lda #$0e        // light blue    
     sta $d025
-    lda #$01
+    lda #$01        // White
     sta $d026 
-    lda #$06
+    lda #$06        // Blue
     sta $d027
 
-loop:
-delay:
-    lda #$ff           // Delay
-    cmp $d012          // Only do things on scan line 255
-    bne delay          // This is to slow the speed of the sprites movement 
+LOOP:
+Delay:                  // scanline delay
+    lda #$ff            // Delay
+    cmp $d012           // complete only on scan line 255
+    bne Delay           // Help us slowwwwww down sprites moves 
 moveup: 
-    lda $dc00          // CIA address for joystick port 2,
+    lda $dc00          // CIA Add for joystick port 2,
     and #%00000001     // Up is the least sig bit   
     bne movedown       // We're finding if dc00's least sig bit is set, ie: if the joystick is pushing up
     dec $d001          // Decrement the y position of sprite0 if it was set, thereby making sprite0 go up 
@@ -122,10 +118,10 @@ rightbounds:
 button:
     lda $dc00
     and #%00010000
-    bne done 
+    bne Finished 
     inc $d020           // Pressing fire flashes the screen
-done:
-    jmp loop
+Finished:
+    jmp LOOP
 
     * = $2000           // Sprite0 data at memlocation $2000
     .byte $00,$00,$00,$00,$00,$00,$00,$3C,$00,$00,$FF,$00,$00,$FF,$00,$03
